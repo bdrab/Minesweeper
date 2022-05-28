@@ -60,6 +60,9 @@ while not game_is_end:
                     elif minesweeper.scores[row][column] != 0:
                         minesweeper.board[row][column] = minesweeper.scores[row][column]
                     elif minesweeper.scores[row][column] == 0:
+                        data = minesweeper.check_to_show([row, column])
+                        for cell in data:
+                            minesweeper.board[cell[0]][cell[1]] = minesweeper.scores[cell[0]][cell[1]]
                         print("zero")
 
     scr.fill(BLACK)
