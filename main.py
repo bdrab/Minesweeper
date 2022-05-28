@@ -7,8 +7,8 @@ WIDTH = 20
 HEIGHT = 20
 MARGIN = 5
 BLACK = (0, 0, 0)
+GREY = (120, 120, 120)
 WHITE = (255, 255, 255)
-
 
 window_size = [255, 255]
 
@@ -48,6 +48,7 @@ while not game_is_end:
 
                 print("Click ", pos, "Grid coordinates: ", row, column)
             if event.button == 1:
+                # TODO: FIX to not show more cells if cell is already "open"
                 pos = pygame.mouse.get_pos()
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
@@ -75,6 +76,11 @@ while not game_is_end:
                 scr.blit(picture_bomb, ((MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN))
             elif minesweeper.board[row][column] == 0:
                 pygame.draw.rect(scr, WHITE, [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+
+            elif minesweeper.board[row][column] == "A":
+                pygame.draw.rect(scr, GREY,
+                                 [(MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
+
             else:
                 value = minesweeper.board[row][column]
                 font = pygame.font.Font(None, 20)

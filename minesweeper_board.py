@@ -1,6 +1,6 @@
 import random
+indexes = [[0, 0], [-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
-indexes = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
 
 class Minesweeper:
     def __init__(self):
@@ -15,7 +15,7 @@ class Minesweeper:
             self.board.append([])
             self.scores.append([])
             for column in range(10):
-                self.board[row].append(0)
+                self.board[row].append("A")
                 self.scores[row].append(0)
 
     def set_bombs(self):
@@ -40,6 +40,7 @@ class Minesweeper:
                 self.board[row][column] = self.scores[row][column]
 
     def check_to_show(self, cell):
+        # TODO: Add BFS algorithm to seek for all cell which should be shown to player
         cell_to_return = []
         row = cell[0]
         column = cell[1]
