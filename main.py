@@ -19,11 +19,11 @@ scr = pygame.display.set_mode(window_size)
 pygame.display.set_caption("Grid")
 
 
-picture_flag = pygame.image.load("flag.jpg")
+picture_flag = pygame.image.load("images/flag.jpg")
 picture_flag = pygame.transform.scale(picture_flag, (20, 20))
 scr.blit(picture_flag, (0, 0))
 
-picture_bomb = pygame.image.load("bomb.jpeg")
+picture_bomb = pygame.image.load("images/bomb.jpeg")
 picture_bomb = pygame.transform.scale(picture_bomb, (20, 20))
 scr.blit(picture_bomb, (0, 0))
 
@@ -42,8 +42,8 @@ while not game_is_end:
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
                 if minesweeper.board[row][column] == "flag":
-                    minesweeper.board[row][column] = 0
-                elif minesweeper.board[row][column] == 0:
+                    minesweeper.board[row][column] = "A"
+                elif minesweeper.board[row][column] == "A":
                     minesweeper.board[row][column] = "flag"
 
                 print("Click ", pos, "Grid coordinates: ", row, column)
@@ -64,7 +64,6 @@ while not game_is_end:
                         data = minesweeper.check_to_show([row, column])
                         for cell in data:
                             minesweeper.board[cell[0]][cell[1]] = minesweeper.scores[cell[0]][cell[1]]
-                        print("zero")
 
     scr.fill(BLACK)
     numbers = [i for i in range(100)]

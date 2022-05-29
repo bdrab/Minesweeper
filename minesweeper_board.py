@@ -40,15 +40,21 @@ class Minesweeper:
                 self.board[row][column] = self.scores[row][column]
 
     def check_to_show(self, cell):
-        # TODO: Add BFS algorithm to seek for all cell which should be shown to player
         cell_to_return = []
-        row = cell[0]
-        column = cell[1]
+        cell_to_check = [cell]
+        cell_checked = []
 
-        for index in indexes:
-            row = cell[0] + index[0]
-            column = cell[1] + index[1]
-            if not (row > 9 or row < 0 or column > 9 or column < 0):
-                cell_to_return.append([row, column])
+        while len(cell_to_check):
+            # TODO: add condition while checking. Now it shows all board.
+            for data in cell_to_check.copy():
+                for index in indexes:
+                    row = data[0] + index[0]
+                    column = data[1] + index[1]
+                    if not (row > 9 or row < 0 or column > 9 or column < 0):
+                        if [row, column] not in cell_checked:
+                            cell_to_check.append([row, column])
+                            cell_checked.append([row, column])
+                            cell_to_return.append([row, column])
+                cell_to_check.remove(data)
 
         return cell_to_return

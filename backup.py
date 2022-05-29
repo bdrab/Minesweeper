@@ -21,11 +21,11 @@ pygame.display.set_caption("Grid")
 
 
 
-picture_flag = pygame.image.load("flag.jpg")
+picture_flag = pygame.image.load("images/flag.jpg")
 picture_flag = pygame.transform.scale(picture_flag, (20, 20))
 scr.blit(picture_flag, (0, 0))
 
-picture_bomb = pygame.image.load("bomb.jpeg")
+picture_bomb = pygame.image.load("images/bomb.jpeg")
 picture_bomb = pygame.transform.scale(picture_bomb, (20, 20))
 scr.blit(picture_bomb, (0, 0))
 
