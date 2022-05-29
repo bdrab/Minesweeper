@@ -1,16 +1,22 @@
-import time
-
 import pygame
 from minesweeper import Minesweeper
 
-WIDTH = 20
-HEIGHT = 20
+CELL_SIZE = 20
+
+
+WIDTH = CELL_SIZE
+HEIGHT = CELL_SIZE
 MARGIN = 5
 BLACK = (0, 0, 0)
 GREY = (120, 120, 120)
 WHITE = (255, 255, 255)
 
-window_size = [255, 255]
+
+board_size = 16
+bomb_number = 40
+window_size = [CELL_SIZE*board_size + (board_size+1)*MARGIN, CELL_SIZE*board_size + (board_size+1)*MARGIN]
+
+
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -20,34 +26,34 @@ pygame.display.set_caption("Grid")
 
 
 picture_flag = pygame.image.load("images/flag.jpg")
-picture_flag = pygame.transform.scale(picture_flag, (20, 20))
+picture_flag = pygame.transform.scale(picture_flag, (CELL_SIZE, CELL_SIZE))
 
 picture_bomb = pygame.image.load("images/bomb.jpeg")
-picture_bomb = pygame.transform.scale(picture_bomb, (20, 20))
+picture_bomb = pygame.transform.scale(picture_bomb, (CELL_SIZE, CELL_SIZE))
 
 picture_1 = pygame.image.load("images/1.jpg")
-picture_1 = pygame.transform.scale(picture_1, (20, 20))
+picture_1 = pygame.transform.scale(picture_1, (CELL_SIZE, CELL_SIZE))
 
 picture_2 = pygame.image.load("images/2.jpg")
-picture_2 = pygame.transform.scale(picture_2, (20, 20))
+picture_2 = pygame.transform.scale(picture_2, (CELL_SIZE, CELL_SIZE))
 
 picture_3 = pygame.image.load("images/3.jpg")
-picture_3 = pygame.transform.scale(picture_3, (20, 20))
+picture_3 = pygame.transform.scale(picture_3, (CELL_SIZE, CELL_SIZE))
 
 picture_4 = pygame.image.load("images/4.jpg")
-picture_4 = pygame.transform.scale(picture_4, (20, 20))
+picture_4 = pygame.transform.scale(picture_4, (CELL_SIZE, CELL_SIZE))
 
 picture_5 = pygame.image.load("images/5.jpg")
-picture_5 = pygame.transform.scale(picture_5, (20, 20))
+picture_5 = pygame.transform.scale(picture_5, (CELL_SIZE, CELL_SIZE))
 
 picture_6 = pygame.image.load("images/6.jpg")
-picture_6 = pygame.transform.scale(picture_6, (20, 20))
+picture_6 = pygame.transform.scale(picture_6, (CELL_SIZE, CELL_SIZE))
 
 picture_7 = pygame.image.load("images/7.jpg")
-picture_7 = pygame.transform.scale(picture_7, (20, 20))
+picture_7 = pygame.transform.scale(picture_7, (CELL_SIZE, CELL_SIZE))
 
 picture_8 = pygame.image.load("images/8.jpg")
-picture_8 = pygame.transform.scale(picture_8, (20, 20))
+picture_8 = pygame.transform.scale(picture_8, (CELL_SIZE, CELL_SIZE))
 
 number_pictures = {
     1: picture_1,
@@ -60,8 +66,7 @@ number_pictures = {
     8: picture_8
 }
 
-minesweeper = Minesweeper()
-print(*minesweeper.scores, sep="\n")
+minesweeper = Minesweeper(board_size=board_size, bombs_number=bomb_number)
 
 game_is_end = False
 
@@ -99,9 +104,8 @@ while True:
                                 minesweeper.board[cell[0]][cell[1]] = minesweeper.scores[cell[0]][cell[1]]
 
         scr.fill(BLACK)
-        numbers = [i for i in range(100)]
-        for row in range(10):
-            for column in range(10):
+        for row in range(minesweeper.board_size):
+            for column in range(minesweeper.board_size):
                 if minesweeper.board[row][column] == "flag":
                     scr.blit(picture_flag, ((MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN))
                 elif minesweeper.board[row][column] == "bomb":
@@ -122,8 +126,8 @@ while True:
         # check if it's win / needs to be fixed to match orginal conditions to win
         win_list = []
         win = True
-        for row in range(10):
-            for column in range(10):
+        for row in range(minesweeper.board_size):
+            for column in range(minesweeper.board_size):
                 if minesweeper.board[row][column] == "A" or minesweeper.board[row][column] == "flag":
                     win_list.append([row, column])
         for bomb in minesweeper.bombs:
