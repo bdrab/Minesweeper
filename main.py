@@ -61,11 +61,11 @@ while True:
                                 minesweeper.board[bomb[0]][bomb[1]] = "bomb"
                         elif minesweeper.scores[row][column] != 0:
                             minesweeper.board[row][column] = minesweeper.scores[row][column]
-                        elif minesweeper.scores[row][column] == 0:
+                        elif minesweeper.scores[row][column] == 0 and minesweeper.board[row][column] != 0:
                             data = minesweeper.check_to_show([row, column])
                             for cell in data:
                                 minesweeper.board[cell[0]][cell[1]] = minesweeper.scores[cell[0]][cell[1]]
-                    print(*minesweeper.board, sep="\n")
+                            print(*minesweeper.board, sep="\n")
 
         scr.fill(BLACK)
         numbers = [i for i in range(100)]
@@ -88,6 +88,23 @@ while True:
                     text = font.render(f"{value}", True, BLACK, WHITE)
                     text_rect = text.get_rect(center=((MARGIN + WIDTH) * column + MARGIN + WIDTH/2, (MARGIN + HEIGHT) * row + MARGIN+HEIGHT/2))
                     scr.blit(text, text_rect)
+
+
+        # check if it's win / needs to be fixed to match orginal conditions to win
+        win_list = []
+        win = True
+        for row in range(10):
+            for column in range(10):
+                if minesweeper.board[row][column] == "A" or minesweeper.board[row][column] == "flag":
+                    win_list.append([row, column])
+        for bomb in minesweeper.bombs:
+            if bomb not in win_list:
+                win = False
+                break
+
+        if len(win_list) == len(minesweeper.bombs) and win:
+            print("You win")
+            game_is_end = True
 
         clock.tick(60)
         pygame.display.flip()
