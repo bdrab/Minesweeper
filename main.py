@@ -1,6 +1,14 @@
 import pygame
 from minesweeper import Minesweeper
 
+
+
+from tkinter import *
+from tkinter import messagebox
+Tk().wm_withdraw() #to hide the main window
+
+
+
 CELL_SIZE = 20
 
 
@@ -12,11 +20,11 @@ GREY = (120, 120, 120)
 WHITE = (255, 255, 255)
 
 
-board_size = 16
-bomb_number = 40
+board_size = 10
+bomb_number = 10
+game_is_end = False
+game_result = ""
 window_size = [CELL_SIZE*board_size + (board_size+1)*MARGIN, CELL_SIZE*board_size + (board_size+1)*MARGIN]
-
-
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -66,12 +74,8 @@ number_pictures = {
     8: picture_8
 }
 
-minesweeper = Minesweeper(board_size=board_size, bombs_number=bomb_number)
-
-game_is_end = False
-
-# this while loop has to be deleted / only for debugging purposes
 while True:
+    minesweeper = Minesweeper(board_size=board_size, bombs_number=bomb_number)
     while not game_is_end:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -92,8 +96,8 @@ while True:
                     row = pos[1] // (HEIGHT + MARGIN)
                     if minesweeper.board[row][column] != "flag":
                         if [row, column] in minesweeper.bombs:
-                            print("Game over!")
                             game_is_end = True
+                            game_result = "LOSE"
                             for bomb in minesweeper.bombs:
                                 minesweeper.board[bomb[0]][bomb[1]] = "bomb"
                         elif minesweeper.scores[row][column] != 0:
@@ -121,9 +125,6 @@ while True:
                     value = minesweeper.board[row][column]
                     scr.blit(number_pictures[value], ((MARGIN + WIDTH) * column + MARGIN, (MARGIN + HEIGHT) * row + MARGIN))
 
-
-
-        # check if it's win / needs to be fixed to match orginal conditions to win
         win_list = []
         win = True
         for row in range(minesweeper.board_size):
@@ -136,9 +137,22 @@ while True:
                 break
 
         if len(win_list) == len(minesweeper.bombs) and win:
-            print("You win")
+            game_result = "WIN"
             game_is_end = True
 
         clock.tick(60)
         pygame.display.flip()
-# pygame.quit()
+
+    user_choice = ""
+    if game_result == "WIN":
+        user_choice = messagebox.askyesno("You win!", "Would you like to play again?")
+    elif game_result == "LOSE":
+        user_choice = messagebox.askyesno("Game over!", "Would you like to play again?")
+
+    if user_choice:
+        game_is_end = False
+        game_result = ""
+    else:
+        game_is_end = False
+        pygame.quit()
+        break
