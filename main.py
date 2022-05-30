@@ -1,17 +1,11 @@
 import pygame
 from minesweeper import Minesweeper
-
-
-
 from tkinter import *
 from tkinter import messagebox
-Tk().wm_withdraw() #to hide the main window
 
+Tk().wm_withdraw()
 
-
-CELL_SIZE = 20
-
-
+CELL_SIZE = 60
 WIDTH = CELL_SIZE
 HEIGHT = CELL_SIZE
 MARGIN = 5
