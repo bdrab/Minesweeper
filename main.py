@@ -31,7 +31,7 @@ scr = pygame.display.set_mode(window_size)
 font = pygame.font.Font(None, CELL_SIZE + 5)
 pygame.time.set_timer(pygame.USEREVENT, 1000)
 
-pygame.display.set_caption("Grid")
+pygame.display.set_caption("Minesweeper")
 
 
 picture_flag = pygame.image.load("images/flag.jpg")
