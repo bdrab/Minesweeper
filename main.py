@@ -97,13 +97,60 @@ def timer(time_value):
     return time_value + 1
 
 
-bomb_counter()
-timer(0)
-
+mode_not_set = True
 
 while True:
+    scr.fill(BLACK)
+    while mode_not_set:
+        mode1_rect = pygame.draw.rect(scr, WHITE, [MARGIN, MARGIN, WIN_WIDTH - 2 * MARGIN, WIN_HEIGHT/3 - 2 * MARGIN])
+        text_mode1_rect = font.render(f"Beginner", True, BLACK)
+        text_rect_mode1 = text_mode1_rect.get_rect(center=(mode1_rect.centerx, mode1_rect.centery))
+        scr.blit(text_mode1_rect, text_rect_mode1)
+        pygame.display.flip()
+
+        mode2_rect = pygame.draw.rect(scr, WHITE, [MARGIN, WIN_HEIGHT/3+ MARGIN, WIN_WIDTH - 2 * MARGIN, WIN_HEIGHT/3 - 2 * MARGIN])
+        text_mode2 = font.render(f"Intermediate", True, BLACK)
+        text_rect_mode2 = text_mode2.get_rect(center=(mode2_rect.centerx, mode2_rect.centery))
+        scr.blit(text_mode2, text_rect_mode2)
+        pygame.display.flip()
+
+        mode3_rect = pygame.draw.rect(scr, WHITE, [MARGIN, 2*WIN_HEIGHT/3 +MARGIN, WIN_WIDTH - 2 * MARGIN, WIN_HEIGHT/3 - 2 * MARGIN])
+        text_mode3 = font.render(f"Expert", True, BLACK)
+        text_rect_mode3 = text_mode3.get_rect(center=(mode3_rect.centerx, mode3_rect.centery))
+        scr.blit(text_mode3, text_rect_mode3)
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_is_end = True
+                mode_not_set = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    pos = pygame.mouse.get_pos()[1]
+                    if mode1_rect.bottom > pos > mode1_rect.top:
+                        board_size = 9
+                        bomb_number = 10
+                        mode_not_set = False
+                    elif mode2_rect.bottom > pos > mode2_rect.top:
+                        board_size = 16
+                        bomb_number = 40
+                        mode_not_set = False
+                    elif mode3_rect.bottom > pos > mode3_rect.top:
+                        board_size = 30
+                        bomb_number = 80
+                        mode_not_set = False
+
+                    WIN_WIDTH = CELL_SIZE * board_size + (board_size + 1) * MARGIN
+                    WIN_HEIGHT = CELL_SIZE * board_size + (board_size + 1) * MARGIN + BUTTON_HEIGHT
+                    window_size = [WIN_WIDTH, WIN_HEIGHT]
+                    scr = pygame.display.set_mode(window_size)
+                    time = 0
+                    flag_counter = bomb_number
 
     minesweeper = Minesweeper(board_size=board_size, bombs_number=bomb_number)
+    scr.fill(BLACK)
+    bomb_counter()
+    timer(0)
     while not game_is_end:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -187,9 +234,8 @@ while True:
     if user_choice:
         game_is_end = False
         game_result = ""
+        mode_not_set = True
         time = 0
-        flag_counter = bomb_number
-        bomb_counter()
     else:
         game_is_end = False
         pygame.quit()
